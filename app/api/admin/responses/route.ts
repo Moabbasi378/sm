@@ -6,8 +6,19 @@ export async function GET() {
   if (!(await isAdminAuthenticated())) {
     return NextResponse.json({ message: "Unauthorized." }, { status: 401 });
   }
-  const responses = await db.dateResponse.findMany({
-    orderBy: { createdAt: "desc" },
-  });
-  return NextResponse.json({ responses });
+  try {
+    const responses = await db.dateResponse.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json({ responses });
+  } catch (e) {
+    console.error(
+      "GET /api/admin/responses failed:",
+      e instanceof Error ? e.message : e,
+    );
+    return NextResponse.json(
+      { message: "Couldn't load responses." },
+      { status: 500 },
+    );
+  }
 }

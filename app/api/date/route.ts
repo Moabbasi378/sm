@@ -49,7 +49,8 @@ export async function POST(req: NextRequest) {
       select: { id: true },
     });
     return NextResponse.json({ ok: true, id: created.id }, { status: 201 });
-  } catch {
+  } catch (e) {
+    console.error("POST /api/date failed:", e instanceof Error ? e.message : e);
     return NextResponse.json(
       { message: "نتونستم ثبتش کنم — دوباره امتحان می‌کنی؟" },
       { status: 500 },

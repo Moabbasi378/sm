@@ -17,7 +17,11 @@ export async function DELETE(_req: NextRequest, { params }: Params) {
   try {
     await db.dateResponse.delete({ where: { id } });
     return NextResponse.json({ ok: true });
-  } catch {
+  } catch (e) {
+    console.error(
+      "DELETE /api/admin/responses failed:",
+      e instanceof Error ? e.message : e,
+    );
     return NextResponse.json({ message: "Not found." }, { status: 404 });
   }
 }

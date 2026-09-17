@@ -23,6 +23,9 @@ function createClient(): PrismaClient {
   // Set TURSO_DATABASE_URL + TURSO_AUTH_TOKEN to use Turso locally too.
   const raw = process.env.TURSO_DATABASE_URL ?? process.env.DATABASE_URL;
   if (!raw) {
+    console.error(
+      "Missing database env: set TURSO_DATABASE_URL (+TURSO_AUTH_TOKEN) or DATABASE_URL",
+    );
     throw new Error("TURSO_DATABASE_URL or DATABASE_URL is not set");
   }
   const adapter = new PrismaLibSQL({
